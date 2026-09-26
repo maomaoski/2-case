@@ -1,19 +1,45 @@
 {% extends "pages/base.html" %}
-{% block title %}Действия с недвижимостью{% endblock %}
+{% block title %}Кварт — квартиры и жильё{% endblock %}
 {% block content %}
-<main class="button-page">
-  <nav class="button-group" aria-label="Действия с недвижимостью">
-    <a class="menu-button" href="{% url 'assistant' %}">AI-ассистент</a>
-    <a class="menu-button" href="{% url 'rent' %}">Снять</a>
-    <a class="menu-button" href="{% url 'sell' %}">Продать</a>
-    <a class="menu-button" href="{% url 'lease' %}">Сдать</a>
-    <a class="menu-button" href="{% url 'compare' %}">Сравнение</a>
-  </nav>
+<header class="hero-section">
+  <a class="logo-bar" href="{% url 'home' %}" aria-label="Кварт — главная">
+    <span class="logo-icon" aria-hidden="true"></span>
+    <span class="logo-text-container">
+      <span class="logo-title">кварт</span>
+      <span class="logo-subtitle">Квартиры и жильё с помощью ИИ</span>
+    </span>
+  </a>
 
-  <div class="button-group" aria-label="Поиск и публикация">
-      {% include "components/filter_button.html" %}
-      {% include "components/city_button.html" %}
+  <div class="controls-container">
+    <div class="utility-pills" aria-label="Параметры поиска">
+      <div class="picker-tool picker-tool--city">{% include "components/city_button.html" %}</div>
+      <div class="picker-tool picker-tool--filter">{% include "components/filter_button.html" %}</div>
+    </div>
+
+    <a class="pill search-pill" href="{% url 'assistant' %}">Поиск с помощью ИИ...</a>
+
+    <nav class="action-buttons" aria-label="Действия с недвижимостью">
+      <a class="pill action-btn" href="{% url 'rent' %}">Снять</a>
+      <a class="pill action-btn" href="{% url 'sell' %}">Продать</a>
+      <a class="pill action-btn" href="{% url 'lease' %}">Сдать</a>
+    </nav>
+
+    <nav class="secondary-buttons" aria-label="Дополнительные действия">
+      <a class="pill action-btn" href="{% url 'compare' %}">Сравнение</a>
       {% include "components/announcement_button.html" %}
+    </nav>
+  </div>
+</header>
+
+<main class="main-content" aria-label="Предложения недвижимости">
+  <div class="grid" aria-hidden="true">
+    {% for card in "123456789" %}
+    <article class="card">
+      <div class="card-image"></div>
+      <div class="card-button"></div>
+    </article>
+    {% endfor %}
   </div>
 </main>
+<footer class="footer" aria-hidden="true"></footer>
 {% endblock %}

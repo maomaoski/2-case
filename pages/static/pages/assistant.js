@@ -2,7 +2,8 @@ const chatForm = document.querySelector("[data-chat-form]");
 const chatInput = document.querySelector("[data-chat-input]");
 const chatMessages = document.querySelector("[data-chat-messages]");
 const chatEmpty = document.querySelector("[data-chat-empty]");
-const chatStorageKey = "property-assistant-messages";
+const chatStorageKey = "property-assistant-messages-v2";
+localStorage.removeItem("property-assistant-messages");
 
 function appendMessage(text, role) {
   const message = document.createElement("p");

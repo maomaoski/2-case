@@ -1,19 +1,21 @@
-.assistant-layout {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
 }
 
-.assistant-spacer { min-width: 0; }
+.right-panel { flex-grow: 1; min-width: 0; position: relative; background: #fff; }
 
-.chat-panel {
+.left-panel {
   min-width: 0;
+  width: 36.5%;
   height: 100vh;
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #d6dcd7;
-  background: #fff;
+  position: relative;
+  padding: 28px 5% 105px;
+  background: #4b5a32;
 }
 
 .chat-header {
@@ -21,19 +23,14 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 0 20px;
-  border-bottom: 1px solid #e5e9e6;
+  padding: 0;
 }
+.chat-back { color: #fff; font-size: 26px; line-height: 1; text-decoration: none; }
+.chat-back:hover { color: #d9d9d9; }
+.chat-back:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
-.chat-back {
-  color: #315f48;
-  font-size: 22px;
-  line-height: 1;
-  text-decoration: none;
-}
-
-.chat-header h1 { margin: 0; font-size: 16px; font-weight: 600; }
-.chat-status { width: 8px; height: 8px; margin-left: auto; border-radius: 50%; background: #5b9a6c; }
+.chat-header h1 { margin: 0; color: #fff; font-size: 20px; font-weight: 600; }
+.chat-status { width: 8px; height: 8px; margin-left: auto; border-radius: 50%; background: #c6d494; }
 
 .chat-messages {
   flex: 1;
@@ -41,31 +38,42 @@
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
-  padding: 20px;
+  padding: 20px 0;
 }
 
-.chat-empty { margin: auto; color: #788078; font-size: 13px; text-align: center; }
-.chat-message { max-width: 88%; margin: 0; padding: 10px 12px; border-radius: 4px; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
-.chat-message--user { align-self: flex-end; color: #fff; background: #315f48; }
+.chat-empty { margin: auto; color: rgb(255 255 255 / 78%); font-size: 13px; text-align: center; }
+.chat-message { max-width: 88%; margin: 0; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
+.chat-message--user { align-self: flex-end; color: #333; background: #d9d9d9; }
 
 .chat-form {
+  position: absolute;
+  bottom: 30px;
+  left: 5%;
+  width: 90%;
+  height: 55px;
   display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  margin: 12px;
-  padding: 8px;
-  border: 1px solid #d6dcd7;
-  border-radius: 4px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 7px 5px 20px;
 }
 
-.chat-form:focus-within { border-color: #315f48; }
-.chat-form textarea { flex: 1; max-height: 120px; min-height: 28px; resize: none; border: 0; outline: 0; font-size: 14px; line-height: 1.5; }
-.chat-send { width: 32px; height: 32px; flex: 0 0 32px; border: 0; border-radius: 3px; color: #fff; background: #315f48; cursor: pointer; font-size: 18px; }
-.chat-send:hover { background: #244936; }
+.chat-form:focus-within { box-shadow: 0 0 0 2px rgb(255 255 255 / 50%); }
+.chat-form textarea { flex: 1; min-width: 0; max-height: 40px; min-height: 24px; resize: none; border: 0; outline: 0; background: transparent; color: #333; font-size: 14px; line-height: 1.5; }
+.chat-form textarea::placeholder { color: #555; }
+.chat-send { width: 42px; height: 42px; flex: 0 0 42px; border: 0; border-radius: 50%; color: #fff; background: #4b5a32; cursor: pointer; font-size: 20px; }
+.chat-send:hover { background: #394625; }
+.top-pill { position: absolute; top: 30px; right: 40px; width: 20%; min-width: 150px; max-width: 200px; height: 45px; }
+.top-pill .picker, .top-pill .utility-button { width: 100%; height: 45px; }
+.top-pill .utility-button { justify-content: center; font-size: 16px; }
+.top-pill .picker-search-label, .top-pill .picker-option, .top-pill .picker-empty { font-size: 13px; }
+.top-pill .picker-search { font-size: 16px; }
+.chat-send:focus-visible, .top-pill .utility-button:focus-visible { outline: 2px solid #4b5a32; outline-offset: 3px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
 
 @media (max-width: 700px) {
-  .assistant-layout { grid-template-columns: 1fr; }
-  .assistant-spacer { display: none; }
-  .chat-panel { width: 100%; border-right: 0; }
+  .container { height: 100vh; flex-direction: column; }
+  .left-panel, .right-panel { width: 100%; height: 50vh; height: 50dvh; }
+  .left-panel { min-height: 320px; }
+  .right-panel { min-height: 260px; }
+  .top-pill { top: 20px; right: 20px; }
 }
