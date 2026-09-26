@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} — Объявление</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'pages/listings.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/listing-detail.css' %}">
+</head>
+<body>
+  <a class="listing-menu" href="{% url 'home' %}">Меню</a>
+  <h1 class="listing-title">Просмотр объявления</h1>
+  <main class="listing-preview-main">
+    <article class="preview-panel">
+      <div class="preview-gallery" aria-label="Фотографии объявления">
+        {% with photo=listing.photos.first %}
+        <div class="preview-main-photo">
+          {% if photo %}<img src="{{ photo.image.url }}" alt="Фотография жилья">
+          {% else %}<span>Фотография жилья</span>{% endif %}
+        </div>
+        {% endwith %}
+        <div class="preview-thumbnails" aria-hidden="true">
+          {% if listing.photos.count > 1 %}
+            {% for photo in listing.photos.all %}{% if not forloop.first %}<div class="preview-thumb"><img src="{{ photo.image.url }}" alt=""></div>{% endif %}{% endfor %}
+          {% else %}
+            <div class="preview-thumb"></div><div class="preview-thumb"></div><div class="preview-thumb"></div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="preview-details">
+        <p class="preview-kind">{% if listing_type == "rent" %}Аренда{% else %}Продажа{% endif %}</p>
+        <h2>{% if listing %}{{ listing.title }}{% else %}Название объявления{% endif %}</h2>
+        <p class="preview-price">{% if listing and listing.price %}{{ listing.price }} ₽{% else %}Цена не указана{% endif %}</p>
+        <div class="preview-facts">
+          <span>{% if listing and listing.city %}{{ listing.city }}{% else %}Город не указан{% endif %}</span>
+          {% if listing %}{% for filter in listing.filters %}<span>{{ filter }}</span>{% endfor %}{% endif %}
+        </div>
+        <p class="preview-description">{% if listing and listing.description %}{{ listing.description }}{% else %}Описание объявления{% endif %}</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

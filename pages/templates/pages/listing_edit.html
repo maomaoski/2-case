@@ -1,0 +1,82 @@
+{% load static l10n %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} — Кварт</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'pages/listings.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/listing-editor.css' %}">
+  <script src="{% static 'pages/listing-editor.js' %}" defer></script>
+</head>
+<body>
+  <a class="listing-menu" href="{% url 'announcement' %}">Мои объявления</a>
+  <h1 class="listing-title">{{ page_title }}</h1>
+  <main class="listing-editor-main" data-listing-editor data-collection-url="{% url 'listings_api' %}" data-detail-url="{% if listing %}{% url 'listing_detail_api' pk=listing.pk %}{% endif %}" data-return-url="{% url 'announcement' %}">
+    <form class="editor-panel" data-editor-form enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if error %}<p class="editor-error">{{ error }}</p>{% endif %}
+      <section class="editor-section photo-section">
+        <div class="section-heading"><h2>Фотографии</h2><span>До 10 МБ каждая</span></div>
+        <div class="photo-list" data-photo-list>
+          {% if listing %}{% for photo in listing.photos.all %}
+          <div class="photo-item" data-existing-photo data-photo-id="{{ photo.pk }}">
+            <img src="{{ photo.image.url }}" alt="Фотография объявления">
+            <button type="button" class="remove-photo" data-remove-photo aria-label="Убрать фотографию">×</button>
+          </div>
+          {% endfor %}{% endif %}
+          <label class="photo-add">
+            <input type="file" name="photos" accept="image/jpeg,image/png,image/webp,image/gif" multiple data-photo-input>
+            <span aria-hidden="true">+</span><span>Добавить фото</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="editor-section">
+        <h2>Фильтры</h2>
+        <div class="filter-options">
+          <label><input type="checkbox" name="filters" value="Балкон" {% if listing and "Балкон" in listing.filters %}checked{% endif %}>Балкон</label>
+          <label><input type="checkbox" name="filters" value="Лифт" {% if listing and "Лифт" in listing.filters %}checked{% endif %}>Лифт</label>
+          <label><input type="checkbox" name="filters" value="Парковка" {% if listing and "Парковка" in listing.filters %}checked{% endif %}>Парковка</label>
+          <label><input type="checkbox" name="filters" value="Можно с животными" {% if listing and "Можно с животными" in listing.filters %}checked{% endif %}>Можно с животными</label>
+          <label><input type="checkbox" name="filters" value="Рядом метро" {% if listing and "Рядом метро" in listing.filters %}checked{% endif %}>Рядом метро</label>
+        </div>
+      </section>
+
+      <section class="editor-section editor-fields">
+        <h2>Анкета объявления</h2>
+        <label>Тип объявления
+          <select name="listing_type">
+            <option value="buy" {% if listing.listing_type == "buy" %}selected{% endif %}>Купить</option>
+            <option value="rent" {% if listing.listing_type == "rent" %}selected{% endif %}>Снять</option>
+            <option value="announcement" {% if not listing or listing.listing_type == "announcement" %}selected{% endif %}>Объявление</option>
+          </select>
+        </label>
+        <label>Название
+          <input name="title" type="text" maxlength="200" value="{{ listing.title|default:'' }}" required>
+        </label>
+        <div class="editor-row">
+          <label>Цена
+            <input name="price" type="number" min="0" step="0.01" value="{{ listing.price|default:''|unlocalize }}">
+          </label>
+          <label>Город
+            <input name="city" type="text" maxlength="100" value="{{ listing.city|default:'' }}">
+          </label>
+        </div>
+        <label>Описание
+          <textarea name="description" rows="4">{{ listing.description|default:'' }}</textarea>
+        </label>
+      </section>
+
+      <p class="editor-status" data-editor-status role="status" hidden></p>
+      <div class="editor-actions">
+        <a href="{% url 'announcement' %}">Отмена</a>
+        <button type="submit">Сохранить</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

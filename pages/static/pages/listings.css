@@ -1,0 +1,72 @@
+:root {
+  color-scheme: light;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: #29271f;
+  background: #e9e1d2;
+}
+
+* { box-sizing: border-box; }
+html, body { min-width: 280px; min-height: 100%; margin: 0; }
+body { min-height: 100vh; background: #e9e1d2; }
+button, input, select, textarea { font: inherit; }
+
+.listing-menu, .listing-title {
+  position: fixed;
+  z-index: 5;
+  top: 16px;
+  border-radius: 999px;
+  padding: 12px 24px;
+  color: #29271f;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(50 44 32 / 14%);
+  font-size: 15px;
+  font-weight: 800;
+}
+.listing-menu { left: 16px; text-decoration: none; }
+.listing-title { left: 50%; margin: 0; transform: translateX(-50%); white-space: nowrap; }
+.listing-main { width: min(683px, calc(100% - 32px)); margin: 0 auto; padding: 124px 0 24px; }
+.listing-panel { min-height: 307px; border-radius: 24px; padding: 18px; background: #fff; box-shadow: 0 18px 42px rgb(50 44 32 / 14%); }
+.listing-grid { display: grid; grid-template-columns: 2fr 1fr; align-items: center; gap: 20px; }
+.listing-grid--single { grid-template-columns: 1fr; }
+.listing-column { position: relative; min-width: 0; height: 192px; overflow: hidden; border-radius: 20px; }
+.listing-empty { width: 100%; height: 100%; display: grid; place-items: center; border-radius: inherit; background: #d4b37f; }
+.listing-empty:hover { background: #c8a46c; }
+.tile-open-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: rgb(71 65 51 / 24%); }
+.tile-open-icon svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.listing-results { width: 100%; height: 100%; overflow: auto; display: grid; align-content: start; gap: 8px; }
+.listing-results[hidden] { display: none; }
+.listing-card { border-radius: 12px; padding: 12px; background: #f3eee5; }
+.listing-card-link { display: block; color: inherit; text-decoration: none; }
+.listing-card-link:focus-visible, .listing-empty:focus-visible, .listing-menu:focus-visible { outline: 3px solid #4d5728; outline-offset: 3px; }
+.listing-card h2 { margin: 0; font-size: 14px; line-height: 1.35; }
+.listing-card p { margin: 5px 0 0; color: #656052; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.listing-price { color: #4d5728 !important; font-weight: 800; }
+.listing-add { width: 100%; height: 192px; display: grid; place-items: center; border: 0; border-radius: 20px; color: #626262; background: #ebebeb; cursor: pointer; }
+.listing-add:hover { background: #e2e2e2; }
+.listing-add svg { width: 44px; height: 44px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
+.listing-status { margin: 10px 2px 0; color: #5e594d; font-size: 13px; }
+.listing-dialog { width: min(440px, calc(100% - 32px)); max-height: calc(100% - 32px); border: 0; border-radius: 18px; padding: 0; color: #29271f; background: #fff; box-shadow: 0 24px 70px rgb(0 0 0 / 24%); }
+.listing-dialog::backdrop { background: rgb(35 32 26 / 40%); backdrop-filter: blur(3px); }
+.listing-form { display: grid; gap: 14px; padding: 22px; }
+.listing-form-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.listing-form-heading h2 { margin: 0; font-size: 19px; }
+.dialog-close { width: 34px; height: 34px; border: 0; border-radius: 50%; color: #3d3a32; background: #f0eee9; font-size: 22px; cursor: pointer; }
+.listing-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; }
+.listing-form input, .listing-form textarea, .listing-form select { width: 100%; min-width: 0; border: 1px solid #d4d0c8; border-radius: 9px; padding: 10px 11px; color: #29271f; background: #fff; font-size: 14px; }
+.listing-form textarea { resize: vertical; }
+.listing-form input:focus, .listing-form textarea:focus, .listing-form select:focus { border-color: #65734a; outline: 2px solid rgb(101 115 74 / 18%); }
+.listing-submit { min-height: 42px; border: 0; border-radius: 10px; color: #fff; background: #4d5728; font-weight: 700; cursor: pointer; }
+.listing-submit:disabled { opacity: .65; cursor: wait; }
+.form-status { margin: 0; color: #8b3f32; font-size: 13px; }
+
+@media (max-width: 520px) {
+  .listing-title { top: 70px; }
+  .listing-main { padding-top: 156px; }
+  .listing-grid { grid-template-columns: 1fr; gap: 16px; }
+  .listing-panel { padding: 16px; }
+  .listing-column, .listing-add { height: 192px; }
+}
+
+@media (max-width: 340px) {
+  .listing-menu, .listing-title { padding: 10px 16px; font-size: 13px; }
+}

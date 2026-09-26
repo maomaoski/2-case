@@ -1,0 +1,31 @@
+.listing-editor-main { width: min(683px, calc(100% - 32px)); margin: 0 auto; padding: 124px 0 24px; }
+.editor-panel { display: grid; gap: 14px; border-radius: 22px; padding: 20px; background: #fff; box-shadow: 0 18px 42px rgb(50 44 32 / 14%); }
+.editor-section { display: grid; gap: 10px; border-bottom: 1px solid #e9e5dc; padding-bottom: 14px; }
+.editor-section h2 { margin: 0; font-size: 16px; }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.section-heading span { color: #777165; font-size: 11px; }
+.photo-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.photo-item, .photo-add { position: relative; width: 94px; height: 74px; display: grid; place-items: center; overflow: hidden; border-radius: 10px; background: #e8dcc7; }
+.photo-item img { width: 100%; height: 100%; object-fit: cover; }
+.photo-add { align-content: center; gap: 2px; border: 1px dashed #aa997a; color: #494438; cursor: pointer; font-size: 10px; }
+.photo-add input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.photo-add span:first-of-type { font-size: 22px; line-height: 1; }
+.remove-photo { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border: 0; border-radius: 50%; color: #fff; background: rgb(38 35 29 / 72%); font-size: 17px; cursor: pointer; }
+.filter-options { display: flex; flex-wrap: wrap; gap: 7px; }
+.filter-options label { display: flex; align-items: center; gap: 6px; border-radius: 999px; padding: 7px 10px; background: #f2efe8; font-size: 11px; cursor: pointer; }
+.filter-options input { accent-color: #4d5728; }
+.editor-fields { gap: 11px; }
+.editor-fields > label, .editor-row label { display: grid; gap: 5px; color: #514e45; font-size: 11px; font-weight: 700; }
+.editor-fields input, .editor-fields textarea, .editor-fields select { width: 100%; min-width: 0; border: 1px solid #d8d4ca; border-radius: 8px; padding: 9px 10px; color: #29271f; background: #fff; font: inherit; font-size: 13px; }
+.editor-fields textarea { resize: vertical; }
+.editor-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.editor-status, .editor-error { margin: 0; color: #8b3f32; font-size: 12px; }
+.editor-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+.editor-actions a { color: #575449; font-size: 12px; text-decoration: none; }
+.editor-actions button { min-height: 38px; border: 0; border-radius: 9px; padding: 8px 18px; color: #fff; background: #4d5728; font-size: 12px; font-weight: 700; cursor: pointer; }
+.editor-actions button:disabled { opacity: .65; cursor: wait; }
+@media (max-width: 520px) {
+  .listing-editor-main { padding-top: 156px; }
+  .editor-panel { padding: 16px; }
+  .photo-item, .photo-add { width: 82px; height: 66px; }
+}

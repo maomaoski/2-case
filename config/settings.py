@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,4 +46,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LISTINGS_API_URL = os.environ.get("LISTINGS_API_URL", "")
+LISTINGS_API_TOKEN = os.environ.get("LISTINGS_API_TOKEN", "")
+LISTINGS_API_TIMEOUT = int(os.environ.get("LISTINGS_API_TIMEOUT", "5"))

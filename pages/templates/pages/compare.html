@@ -1,5 +1,82 @@
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Сравнение</title></head>
-<body></body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сравнение — Кварт</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'pages/compare.css' %}">
+  <script src="{% static 'pages/compare.js' %}" defer></script>
+</head>
+<body>
+  <header class="board-topbar">
+    <a class="board-brand" href="{% url 'home' %}" aria-label="На главную">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 14L16 4L28 14V26C28 27.1 27.1 28 26 28H6C4.9 28 4 27.1 4 26V14Z" fill="#F4EEDD"/>
+          <rect x="10" y="14" width="5" height="5" fill="#B88428"/><rect x="17" y="14" width="5" height="5" fill="#4D5728"/>
+          <rect x="10" y="20" width="5" height="5" fill="#4D5728"/><rect x="17" y="20" width="5" height="5" fill="#B88428"/>
+        </svg>
+      </span>
+      <strong>кварт</strong>
+    </a>
+    <h1 class="board-heading">Сравнение</h1>
+  </header>
+
+  <main class="board-viewport" data-board-viewport aria-label="Доска сравнения квартир">
+    <div class="board-world" data-board-world>
+      <svg class="drawing-layer" data-drawing-layer viewBox="0 0 1200 850" aria-hidden="true"></svg>
+      <article class="board-card board-card-profile">
+        <h2>Пример<br>профиля<br>клиента</h2>
+        <p>(плейсхолдер)</p>
+      </article>
+      <article class="board-card board-card-search">
+        <h2>Макет с ИИ<br>поиском квартир</h2>
+        <p>(плейсхолдер)</p>
+      </article>
+
+      <div class="collaborator collaborator-alex" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+        <span>Алекс</span>
+      </div>
+      <div class="collaborator collaborator-lisa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+        <span>Лиза</span>
+      </div>
+    </div>
+  </main>
+
+  <aside class="board-dock" aria-label="Инструменты доски">
+    <button type="button" class="tool-button" data-tool="pen" aria-label="Маркер" title="Маркер">
+      <svg viewBox="0 0 24 24"><path d="m4 20 4.5-1 11-11a2.8 2.8 0 0 0-4-4l-11 11zM13.5 5.5l5 5"/></svg>
+    </button>
+    <div class="marker-options" aria-label="Параметры маркера">
+      <div class="color-options" aria-label="Цвет маркера">
+        <button type="button" class="color-option is-selected" data-color="#28352c" aria-label="Тёмно-зелёный" aria-pressed="true"></button>
+        <button type="button" class="color-option" data-color="#b85c43" aria-label="Терракотовый" aria-pressed="false"></button>
+        <button type="button" class="color-option" data-color="#416b91" aria-label="Синий" aria-pressed="false"></button>
+      </div>
+      <label class="thickness-option" title="Толщина маркера">
+        <span>Толщина</span>
+        <input type="range" min="1" max="12" value="4" data-stroke-width aria-label="Толщина линии">
+      </label>
+    </div>
+    <div class="toolbar-divider"></div>
+    <button type="button" class="tool-button" data-tool="rectangle" aria-label="Прямоугольник" title="Прямоугольник">
+      <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1"/></svg>
+    </button>
+    <button type="button" class="tool-button" data-tool="ellipse" aria-label="Эллипс" title="Эллипс">
+      <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6.5"/></svg>
+    </button>
+    <button type="button" class="tool-button" data-tool="line" aria-label="Линия" title="Линия">
+      <svg viewBox="0 0 24 24"><path d="M4 19 20 5"/></svg>
+    </button>
+    <button type="button" class="tool-button" data-tool="text" aria-label="Добавить текст" title="Добавить текст">
+      <svg viewBox="0 0 24 24"><path d="M4 5h16M12 5v14m-4 0h8"/></svg>
+    </button>
+  </aside>
+</body>
 </html>

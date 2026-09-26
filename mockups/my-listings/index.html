@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ваши объявления</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-image: url('my-listings.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8 lg:p-12 flex flex-col items-center justify-center antialiased">
+
+  <div class="w-full max-w-5xl space-y-6">
+
+    <!-- Top Pills: «Меню» and «Ваши объявления» (from Desktop-3.png) -->
+    <div class="flex items-center gap-4 flex-wrap">
+      <button class="bg-white text-neutral-950 font-extrabold text-base sm:text-lg px-8 py-3.5 rounded-full shadow-2xl transition-transform active:scale-95">
+        Меню
+      </button>
+      <div class="bg-white text-neutral-950 font-extrabold text-base sm:text-lg px-8 py-3.5 rounded-full shadow-2xl">
+        Ваши объявления
+      </div>
+    </div>
+
+    <!-- Main White Rounded Rectangular Panel (from Desktop-3.png) -->
+    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-2xl min-h-[460px] flex items-center justify-center">
+      
+      <!-- Content: Solid Beige/Tan Card Placeholder + Light-Gray Square Plus Button -->
+      <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center">
+        
+        <!-- Solid Beige/Tan Card Shape (Listing Placeholder from mockup) -->
+        <div class="md:col-span-2 h-64 sm:h-72 rounded-3xl bg-[#D4B37F] shadow-md flex items-center justify-center text-white/50">
+          <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        </div>
+
+        <!-- Light-Gray Square Button with Plus (+) (from mockup) -->
+        <div class="flex items-center justify-center h-full">
+          <button class="w-full h-64 sm:h-72 rounded-3xl bg-[#EBEBEB] hover:bg-[#E2E2E2] flex items-center justify-center text-neutral-600 transition-colors shadow-sm">
+            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

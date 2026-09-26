@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} — Кварт</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'pages/listings.css' %}">
+  <script src="{% static 'pages/listings.js' %}" defer></script>
+</head>
+<body>
+  <a class="listing-menu" href="{% url 'home' %}">Меню</a>
+  <h1 class="listing-title">{{ page_title }}</h1>
+
+  <main class="listing-main" data-listing-page data-api-url="{% url 'listings_api' %}" data-detail-url="{% url 'listing_preview' %}" data-edit-url="{% url 'listing_edit' %}" data-listing-type="{{ listing_type }}">
+    <section class="listing-panel" aria-label="{{ page_title }}">
+      <div class="listing-grid{% if listing_type != 'all' %} listing-grid--single{% endif %}">
+        <div class="listing-column">
+          {% if listing_type == "all" %}
+          <a class="listing-empty" data-listings-empty href="{% url 'listing_edit' %}" aria-label="Открыть анкету объявления">
+            <span class="tile-open-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m14 5 5 5M4 20l4-.8L20 7a3.5 3.5 0 0 0-5-5L3 14z"/></svg></span>
+          </a>
+          {% else %}
+          <a class="listing-empty" data-listings-empty href="{% url 'listing_preview' %}?type={{ listing_type }}" aria-label="Посмотреть объявление">
+            <span class="tile-open-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          </a>
+          {% endif %}
+          <div class="listing-results" data-listing-results hidden></div>
+        </div>
+        {% if listing_type == "all" %}
+        <button type="button" class="listing-add" data-open-listing-form aria-label="Добавить объявление" title="Добавить объявление">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m8-8H4"/></svg>
+        </button>
+        {% endif %}
+      </div>
+      <p class="listing-status" data-listing-status role="status" hidden></p>
+    </section>
+  </main>
+
+  {% if listing_type == "all" %}
+  <dialog class="listing-dialog" data-listing-dialog>
+    <form class="listing-form" data-listing-form method="post">
+      {% csrf_token %}
+      <div class="listing-form-heading">
+        <h2>Новое объявление</h2>
+        <button type="button" class="dialog-close" data-close-listing-form aria-label="Закрыть">×</button>
+      </div>
+      {% if listing_type == "all" %}
+      <label>Тип
+        <select name="listing_type" required>
+          <option value="buy">Купить</option>
+          <option value="rent">Снять</option>
+          <option value="announcement">Объявление</option>
+        </select>
+      </label>
+      {% else %}
+      <input type="hidden" name="listing_type" value="{{ listing_type }}">
+      {% endif %}
+      <label>Название
+        <input name="title" type="text" maxlength="200" required>
+      </label>
+      <label>Цена
+        <input name="price" type="number" min="0" step="0.01" inputmode="decimal">
+      </label>
+      <label>Описание
+        <textarea name="description" rows="3"></textarea>
+      </label>
+      <p class="form-status" data-form-status role="status" hidden></p>
+      <button class="listing-submit" type="submit">Добавить</button>
+    </form>
+  </dialog>
+  {% endif %}
+</body>
+</html>
