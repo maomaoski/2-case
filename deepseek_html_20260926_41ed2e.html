@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Циан — недвижимость в Красноярске</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <div class="header__container container">
+      
+      <!-- Logo -->
+      <a href="/" class="header__logo logo">
+        <svg class="logo__icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L2 14h6v14h6V20h4v8h6V14h6L16 2z" fill="#2969FF"/>
+        </svg>
+        <span class="logo__text">Циан</span>
+      </a>
+
+      <!-- Top Actions -->
+      <div class="header__actions">
+        <button class="btn btn--smart-assistant">
+          <span class="btn__icon">✨</span>
+          <span class="btn__text">Умный помощник</span>
+        </button>
+        
+        <div class="header__icons">
+          <button class="icon-btn" aria-label="Карта">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <button class="icon-btn" aria-label="Сообщения">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M21 12a8 8 0 01-8 8H4l2-4a8 8 0 1115-4z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <button class="icon-btn" aria-label="Избранное">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s-8-5.5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.5-8 11-8 11z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <button class="icon-btn" aria-label="Уведомления">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 16v-5a6 6 0 10-12 0v5l-2 2h16l-2-2zM10 20a2 2 0 004 0" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+
+        <button class="btn btn--primary">+ Разместить за 0 ₽</button>
+        <button class="btn btn--secondary">Войти</button>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="header__nav nav">
+      <div class="nav__container container">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="#" class="nav__link">Аренда</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Продажа</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Новостройки</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Коммерческая</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Ипотека</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Мой дом</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Сервисы</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Приложение Циан</a></li>
+          <li class="nav__item"><a href="#" class="nav__link nav__link--accent">СМ.СИТИ</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero__bg">
+      <!-- Фоновое изображение: интерьер с диваном -->
+      <img src="assets/images/hero-bg.jpg" alt="" class="hero__image">
+    </div>
+
+    <div class="hero__container container">
+      <!-- City Selector -->
+      <button class="city-selector">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" fill="#fff"/>
+        </svg>
+        <span>Красноярск</span>
+      </button>
+
+      <!-- Title -->
+      <h1 class="hero__title">Циан помогает въехать</h1>
+
+      <!-- Search Block -->
+      <div class="search-block">
+        <form class="search-form" action="/search" method="GET">
+          <div class="search-form__input-wrapper">
+            <svg class="search-form__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="#1A1A1A" stroke-width="2"/>
+              <path d="M20 20l-4-4" stroke="#1A1A1A" stroke-width="2"/>
+            </svg>
+            <input 
+              type="text" 
+              class="search-form__input" 
+              placeholder="Купить квартиру с большой кухней рядом с метро"
+              name="query"
+            >
+          </div>
+          
+          <button type="submit" class="search-form__submit" aria-label="Найти">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <button type="button" class="search-form__map-btn">
+            <span>На карте</span>
+          </button>
+        </form>
+
+        <!-- Quick Tabs -->
+        <div class="search-tabs">
+          <button class="search-tabs__item is-active">Купить квартиру</button>
+          <button class="search-tabs__item">Снять надолго</button>
+          <button class="search-tabs__item">Снять посуточно</button>
+          <button class="search-tabs__item">Купить дом</button>
+          <button class="search-tabs__item">Купить участок</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LISTINGS ================= -->
+  <section class="listings container">
+    <h2 class="listings__title">Могут подойти</h2>
+
+    <div class="listings__grid">
+      <!-- Card 1 -->
+      <article class="card">
+        <div class="card__image-wrapper">
+          <img src="assets/images/flat-1.jpg" alt="3-комн. квартира" class="card__image">
+          <button class="card__favorite" aria-label="В избранное">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s-8-5.5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.5-8 11-8 11z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+        <div class="card__body">
+          <p class="card__price">5 700 000 ₽</p>
+          <p class="card__params">3-комн. кв. · 47,5 м² · 4/5 этаж</p>
+          <p class="card__address">Красноярский кр., Красноярск, Северо-Западный микрорайон, ул. Тотмина, 27А</p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card">
+        <div class="card__image-wrapper">
+          <img src="assets/images/flat-2.jpg" alt="Студия" class="card__image">
+          <button class="card__favorite" aria-label="В избранное">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s-8-5.5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.5-8 11-8 11z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+        <div class="card__body">
+          <p class="card__price">24 000 ₽/мес.</p>
+          <p class="card__params">Студия · 29,3 м² · 13/25 этаж</p>
+          <p class="card__address">Красноярский кр., Красноярск, ул. Калинина, 175А</p>
+        </div>
+      </article>
+
+      <!-- Card 3 (с планировкой) -->
+      <article class="card">
+        <div class="card__image-wrapper">
+          <img src="assets/images/plan-1.jpg" alt="Планировка 2-комн." class="card__image">
+          <button class="card__favorite" aria-label="В избранное">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s-8-5.5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.5-8 11-8 11z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+        <div class="card__body">
+          <p class="card__price">7 100 000 ₽</p>
+          <p class="card__params">2-комн. кв. · 50,9 м² · 11/19 этаж</p>
+          <p class="card__address">Красноярский кр., Красноярск, Норильская ул., 64</p>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card">
+        <div class="card__image-wrapper">
+          <img src="assets/images/plan-2.jpg" alt="Планировка студии" class="card__image">
+          <button class="card__favorite" aria-label="В избранное">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s-8-5.5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.5-8 11-8 11z" stroke="#1A1A1A" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+        <div class="card__body">
+          <p class="card__price">4 400 000 ₽</p>
+          <p class="card__params">Студия · 22,8 м² · 18/18 этаж</p>
+          <p class="card__address">Красноярский кр., Красноярск, ул. Калинина, 189</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= POPULAR COMPLEXES ================= -->
+  <section class="complexes">
+    <div class="container">
+      <h2 class="complexes__title">Популярные жилые комплексы от застройщиков</h2>
+
+      <div class="complexes__slider">
+        <!-- Complex 1 -->
+        <article class="complex-card">
+          <div class="complex-card__image-wrapper">
+            <img src="assets/images/jk-1.jpg" alt="ЖК Аллея Парк" class="complex-card__image">
+            <div class="complex-card__logo">
+              <img src="assets/images/logo-dsk.png" alt="ДСК">
+            </div>
+          </div>
+          <div class="complex-card__body">
+            <p class="complex-card__developer">Застройщик ДСК (Красноярск)</p>
+            <h3 class="complex-card__name">ЖК Аллея Парк</h3>
+            <p class="complex-card__price">от 3 937 600 ₽</p>
+            <p class="complex-card__info">Сдача в 2026—2029</p>
+            <p class="complex-card__address">Красноярск, ул. Светлова</p>
+          </div>
+        </article>
+
+        <!-- CTA Card (посередине) -->
+        <article class="complex-card complex-card--cta">
+          <div class="complex-card__cta-content">
+            <div class="complex-card__cta-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="24" fill="#2969FF"/>
+                <path d="M20 30l10-8-10-8v16z" fill="#fff"/>
+              </svg>
+            </div>
+            <p class="complex-card__cta-text">Поможем найти и купить квартиру под ваш бюджет</p>
+            <button class="btn btn--primary btn--full">К заявке</button>
+          </div>
+        </article>
+
+        <!-- Complex 2 -->
+        <article class="complex-card">
+          <div class="complex-card__image-wrapper">
+            <img src="assets/images/jk-2.jpg" alt="ЖК Звезда" class="complex-card__image">
+            <div class="complex-card__logo">
+              <img src="assets/images/logo-dsk.png" alt="ДСК">
+            </div>
+          </div>
+          <div class="complex-card__body">
+            <p class="complex-card__developer">Застройщик ДСК (Красноярск)</p>
+            <h3 class="complex-card__name">ЖК Звезда</h3>
+            <p class="complex-card__price">от 4 684 500 ₽</p>
+            <p class="complex-card__info">Сдача в 4 кв. 2027</p>
+            <p class="complex-card__address">Красноярск, ул. 26 Бакинских К...</p>
+          </div>
+        </article>
+
+        <!-- Complex 3 -->
+        <article class="complex-card">
+          <div class="complex-card__image-wrapper">
+            <img src="assets/images/jk-3.jpg" alt="ЖК Юдинский" class="complex-card__image">
+            <div class="complex-card__logo">
+              <img src="assets/images/logo-monolit.png" alt="МонолитХолдинг">
+            </div>
+          </div>
+          <div class="complex-card__body">
+            <p class="complex-card__developer">Застройщик МонолитХолдинг</p>
+            <h3 class="complex-card__name">ЖК Юдинский</h3>
+            <p class="complex-card__price">от 4 324 252 ₽</p>
+            <p class="complex-card__info">Сдача в 2026—2028</p>
+            <p class="complex-card__address">Красноярск, ул. Становая</p>
+          </div>
+        </article>
+
+        <!-- Complex 4 -->
+        <article class="complex-card">
+          <div class="complex-card__image-wrapper">
+            <img src="assets/images/jk-4.jpg" alt="ЖК Дом на Ульяновском" class="complex-card__image">
+            <div class="complex-card__logo">
+              <img src="assets/images/logo-konstruktiv.png" alt="Конструktiv">
+            </div>
+          </div>
+          <div class="complex-card__body">
+            <p class="complex-card__developer">Застройщик Конструktiv, Деве...</p>
+            <h3 class="complex-card__name">ЖК Дом на Ульяновском</h3>
+            <p class="complex-card__price">от 5 494 000 ₽</p>
+            <p class="complex-card__info">Сдача в 4 кв. 2029</p>
+            <p class="complex-card__address">Красноярск, Ульяновский просп.</p>
+          </div>
+        </article>
+
+        <!-- Slider Arrow -->
+        <button class="complexes__arrow complexes__arrow--next" aria-label="Следующий">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 6l6 6-6 6" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEEDBACK BUTTON ================= -->
+  <button class="feedback-btn">
+    <span class="feedback-btn__emoji">🤔</span>
+    <span class="feedback-btn__text">Отзыв о сайте</span>
+  </button>
+
+</body>
+</html>
