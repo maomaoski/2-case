@@ -1,0 +1,14 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Дом и город{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'pages/styles.css' %}">
+  <script src="{% static 'pages/widgets.js' %}" defer></script>
+</head>
+<body>
+  {% block content %}{% endblock %}
+</body>
+</html>

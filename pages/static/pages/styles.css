@@ -1,0 +1,83 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", sans-serif;
+  color: #202923;
+  background: #fff;
+}
+
+* { box-sizing: border-box; }
+body { min-width: 280px; min-height: 100vh; margin: 0; }
+button, input { font: inherit; }
+
+.button-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: min(760px, calc(100% - 32px));
+  margin: 48px auto;
+}
+
+.button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.menu-button, .utility-button, .publish-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid #d6dcd7;
+  border-radius: 4px;
+  color: #202923;
+  background: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.menu-button:hover, .utility-button:hover, .utility-button[aria-expanded="true"] {
+  border-color: #315f48;
+  color: #244936;
+}
+
+.menu-button:focus-visible, .utility-button:focus-visible, .publish-button:focus-visible {
+  outline: 2px solid #315f48;
+  outline-offset: 2px;
+}
+
+.picker { position: relative; }
+.utility-button-icon { color: #315f48; }
+.utility-chevron { color: #788078; }
+
+.picker-panel {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 260px;
+  padding: 12px;
+  border: 1px solid #d6dcd7;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.picker-panel[hidden] { display: none; }
+.picker-search-label { display: block; margin-bottom: 8px; font-size: 13px; }
+.picker-search { width: 100%; height: 36px; padding: 0 8px; border: 1px solid #d6dcd7; border-radius: 3px; }
+.picker-search:focus { border-color: #315f48; outline: none; }
+.picker-options { max-height: 220px; overflow-y: auto; margin-top: 8px; }
+.picker-option { min-height: 32px; display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+.picker-option[hidden], .picker-empty[hidden] { display: none; }
+.picker-option input { accent-color: #315f48; }
+.picker-empty { margin: 10px 0 2px; color: #788078; font-size: 13px; }
+
+.publish-button { border-color: #315f48; color: #fff; background: #315f48; }
+.publish-button:hover { background: #244936; }
+
+@media (max-width: 520px) {
+  .button-page { margin: 24px auto; }
+  .button-group { width: 100%; }
+  .menu-button, .button-group > .picker, .button-group > .picker .utility-button, .publish-button { flex: 1 1 100%; }
+  .button-group > .picker { display: flex; }
+  .picker-panel { width: 100%; }
+}

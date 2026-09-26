@@ -1,0 +1,22 @@
+<div class="picker" data-picker>
+  <button class="utility-button" type="button" aria-expanded="false" aria-controls="city-picker-panel" data-picker-trigger>
+    <span class="utility-button-icon" aria-hidden="true">⌖</span>
+    <span>Город</span>
+    <span class="utility-chevron" aria-hidden="true">⌄</span>
+  </button>
+  <div class="picker-panel" id="city-picker-panel" data-picker-panel hidden>
+    <label class="picker-search-label" for="city-picker-search">Выберите город</label>
+    <input class="picker-search" id="city-picker-search" type="search" placeholder="Найти город" autocomplete="off" data-picker-search>
+    <div class="picker-options" data-picker-options>
+      <label class="picker-option"><input type="radio" name="city" value="moscow"><span>Москва</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="saint-petersburg"><span>Санкт-Петербург</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="kazan"><span>Казань</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="yekaterinburg"><span>Екатеринбург</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="novosibirsk"><span>Новосибирск</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="nizhny-novgorod"><span>Нижний Новгород</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="krasnodar"><span>Краснодар</span></label>
+      <label class="picker-option"><input type="radio" name="city" value="vladivostok"><span>Владивосток</span></label>
+    </div>
+    <p class="picker-empty" data-picker-empty hidden>Ничего не найдено</p>
+  </div>
+</div>

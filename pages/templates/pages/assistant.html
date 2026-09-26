@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-ассистент</title>
+  <link rel="stylesheet" href="{% static 'pages/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/assistant.css' %}">
+  <script src="{% static 'pages/assistant.js' %}" defer></script>
+</head>
+<body>
+  <main class="assistant-layout">
+    <section class="chat-panel" aria-labelledby="chat-title">
+      <header class="chat-header">
+        <a class="chat-back" href="{% url 'home' %}" aria-label="Назад">←</a>
+        <h1 id="chat-title">AI-ассистент</h1>
+        <span class="chat-status" aria-label="Чат активен"></span>
+      </header>
+      <div class="chat-messages" data-chat-messages aria-live="polite" aria-relevant="additions">
+        <p class="chat-empty" data-chat-empty>Напишите сообщение, чтобы начать.</p>
+      </div>
+      <form class="chat-form" data-chat-form>
+        <label class="visually-hidden" for="chat-input">Ваше сообщение</label>
+        <textarea id="chat-input" name="message" rows="1" placeholder="Введите сообщение..." data-chat-input required></textarea>
+        <button class="chat-send" type="submit" aria-label="Отправить сообщение">↑</button>
+      </form>
+    </section>
+    <div class="assistant-spacer" aria-hidden="true"></div>
+  </main>
+</body>
+</html><!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI-ассистент</title></head>
+<body></body>
+</html>

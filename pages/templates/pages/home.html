@@ -1,0 +1,19 @@
+{% extends "pages/base.html" %}
+{% block title %}Действия с недвижимостью{% endblock %}
+{% block content %}
+<main class="button-page">
+  <nav class="button-group" aria-label="Действия с недвижимостью">
+    <a class="menu-button" href="{% url 'assistant' %}">AI-ассистент</a>
+    <a class="menu-button" href="{% url 'rent' %}">Снять</a>
+    <a class="menu-button" href="{% url 'sell' %}">Продать</a>
+    <a class="menu-button" href="{% url 'lease' %}">Сдать</a>
+    <a class="menu-button" href="{% url 'compare' %}">Сравнение</a>
+  </nav>
+
+  <div class="button-group" aria-label="Поиск и публикация">
+      {% include "components/filter_button.html" %}
+      {% include "components/city_button.html" %}
+      {% include "components/announcement_button.html" %}
+  </div>
+</main>
+{% endblock %}

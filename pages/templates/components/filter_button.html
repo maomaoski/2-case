@@ -1,0 +1,22 @@
+<div class="picker" data-picker>
+  <button class="utility-button" type="button" aria-expanded="false" aria-controls="filter-picker-panel" data-picker-trigger>
+    <span class="utility-button-icon" aria-hidden="true">≡</span>
+    <span>Фильтры</span>
+    <span class="utility-chevron" aria-hidden="true">⌄</span>
+  </button>
+  <div class="picker-panel" id="filter-picker-panel" data-picker-panel hidden>
+    <label class="picker-search-label" for="filter-picker-search">Параметры</label>
+    <input class="picker-search" id="filter-picker-search" type="search" placeholder="Найти параметр" autocomplete="off" data-picker-search>
+    <div class="picker-options" data-picker-options>
+      <label class="picker-option"><input type="checkbox" name="filters" value="price"><span>Цена</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="rooms"><span>Количество комнат</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="area"><span>Площадь</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="property-type"><span>Тип жилья</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="floor"><span>Этаж</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="renovation"><span>Ремонт</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="furnished"><span>С мебелью</span></label>
+      <label class="picker-option"><input type="checkbox" name="filters" value="pets"><span>Можно с животными</span></label>
+    </div>
+    <p class="picker-empty" data-picker-empty hidden>Ничего не найдено</p>
+  </div>
+</div>
