@@ -1,6 +1,0 @@
-{
-  "name": "GeoRent AI — Умный поиск квартир и аналитика",
-  "description": "Сервис поиска и сравнения квартир (аренда/покупка) с нормализацией запросов через Gemini API, Proxy-слоем, парсингом площадок, анализом генплана и льготных ипотек.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

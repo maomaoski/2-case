@@ -3,9 +3,12 @@ from decimal import Decimal, InvalidOperation
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_GET, require_POST
+from urllib.parse import urlencode
 
-from .api_client import publish_listing
+from .api_client import fetch_fastapi_listings, publish_listing, search_fastapi
 from .models import Listing, ListingPhoto
 
 
@@ -108,6 +111,111 @@ def update_photos(listing, payload, files):
     for image in files:
         ListingPhoto.objects.create(listing=listing, image=image)
     getattr(listing, "_prefetched_objects_cache", {}).pop("photos", None)
+
+
+def catalog_detail_url(item, city, deal_type):
+    query = urlencode({
+        "source": "fastapi",
+        "id": item.get("id", ""),
+        "city": city,
+        "type": deal_type,
+    })
+    return f"{reverse('listing_preview')}?{query}"
+
+
+def local_catalog_items(city, deal_type):
+    items = []
+    queryset = Listing.objects.filter(listing_type=deal_type, city__iexact=city)
+    for listing in queryset:
+        item = serialize_listing(listing)
+        item.update({
+            "price_rub": float(listing.price) if listing.price is not None else 0,
+            "rooms_count": None,
+            "source": "quart",
+            "address": listing.city,
+            "detail_url": f"{reverse('listing_preview')}?{urlencode({'id': listing.pk, 'type': deal_type})}",
+        })
+        items.append(item)
+    return items
+
+
+@require_GET
+def catalog(request):
+    city = request.GET.get("city", "Красноярск").strip() or "Красноярск"
+    deal_type = request.GET.get("deal_type", "rent")
+    if deal_type not in {Listing.Type.BUY, Listing.Type.RENT}:
+        return JsonResponse({"error": "Неизвестный тип сделки."}, status=400)
+    items = local_catalog_items(city, deal_type)
+    warning = ""
+    try:
+        external_items = fetch_fastapi_listings(city, deal_type)
+    except RuntimeError as error:
+        external_items = []
+        warning = str(error)
+
+    for item in external_items:
+        item["detail_url"] = catalog_detail_url(item, city, deal_type)
+    items.extend(external_items)
+    return JsonResponse({"listings": items, "total": len(items), "warning": warning})
+
+
+def city_from_query(query_text):
+    lowered = query_text.lower()
+    if "москв" in lowered:
+        return "Москва"
+    if "петербург" in lowered or "питер" in lowered or "спб" in lowered:
+        return "Санкт-Петербург"
+    return "Красноярск"
+
+
+@require_POST
+def assistant_search(request):
+    payload, _, error = read_payload(request)
+    if error:
+        return JsonResponse({"error": error}, status=400)
+    message = str(payload.get("message", "")).strip()
+    if not message:
+        return JsonResponse({"error": "Напишите запрос для поиска."}, status=400)
+
+    try:
+        search_result = search_fastapi(message)
+        criteria = search_result.get("normalized_query", {})
+        city = city_from_query(message)
+        deal_type = criteria.get("deal_type", "rent")
+        if deal_type not in {Listing.Type.BUY, Listing.Type.RENT}:
+            deal_type = "rent"
+        listings = local_catalog_items(city, deal_type)
+        listings.extend(fetch_fastapi_listings(city, deal_type))
+    except RuntimeError as error:
+        return JsonResponse({"error": str(error)}, status=502)
+
+    max_price = criteria.get("max_price")
+    min_price = criteria.get("min_price")
+    rooms = criteria.get("rooms")
+    districts = [value.lower() for value in criteria.get("preferred_districts", [])]
+    if max_price is not None:
+        listings = [item for item in listings if float(item.get("price_rub", 0)) <= float(max_price)]
+    if min_price is not None:
+        listings = [item for item in listings if float(item.get("price_rub", 0)) >= float(min_price)]
+    if rooms is not None:
+        listings = [item for item in listings if item.get("rooms_count") == rooms]
+    if districts:
+        listings = [
+            item for item in listings
+            if any(term in f"{item.get('district_name', '')} {item.get('address', '')}".lower() for term in districts)
+        ]
+
+    for item in listings:
+        item["detail_url"] = catalog_detail_url(item, city, deal_type)
+    recommendation = search_result.get("ai_recommendations", "")
+    reply = f"{recommendation}\n\nНайдено квартир: {len(listings)}."
+    return JsonResponse({
+        "reply": reply,
+        "city": city,
+        "deal_type": deal_type,
+        "criteria": criteria,
+        "listings": listings,
+    })
 
 
 @require_http_methods(["GET", "POST"])

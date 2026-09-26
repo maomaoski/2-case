@@ -48,3 +48,52 @@ document.querySelectorAll("[data-picker]").forEach((picker) => {
     }
   });
 });
+
+const homeGrid = document.querySelector("[data-home-grid]");
+if (homeGrid) {
+  const placeholders = [...homeGrid.querySelectorAll("[data-home-placeholder]")];
+  const localKeys = new Set(
+    [...homeGrid.querySelectorAll("[data-home-listing-key]")].map((link) => link.dataset.homeListingKey),
+  );
+  const localCount = localKeys.size;
+
+  if (localCount < 9) {
+    const catalogUrl = homeGrid.dataset.catalogUrl;
+    Promise.all(["rent", "buy"].map(async (dealType) => {
+      const url = new URL(catalogUrl, window.location.href);
+      url.searchParams.set("city", "Красноярск");
+      url.searchParams.set("deal_type", dealType);
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return response.ok ? (data.listings || []).filter((item) => item.source !== "quart") : [];
+      } catch {
+        return [];
+      }
+    })).then((results) => {
+      const externalListings = results.flat().slice(0, 9 - localCount);
+      if (!externalListings.length) return;
+
+      placeholders.forEach((placeholder) => placeholder.remove());
+      externalListings.forEach((listing) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        const link = document.createElement("a");
+        link.className = "card-listing";
+        link.href = listing.detail_url;
+        link.setAttribute("aria-label", `Открыть объявление: ${listing.title}`);
+        const image = document.createElement("div");
+        image.className = "card-image";
+        link.append(image);
+        const price = document.createElement("div");
+        price.className = "card-button";
+        price.setAttribute("aria-label", "Цена объявления");
+        price.textContent = listing.price_rub
+          ? `${Number(listing.price_rub).toLocaleString("ru-RU")} ₽`
+          : "Цена не указана";
+        card.append(link, price);
+        homeGrid.append(card);
+      });
+    });
+  }
+}

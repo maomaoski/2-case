@@ -44,6 +44,10 @@
 .chat-empty { margin: auto; color: rgb(255 255 255 / 78%); font-size: 13px; text-align: center; }
 .chat-message { max-width: 88%; margin: 0; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
 .chat-message--user { align-self: flex-end; color: #333; background: #d9d9d9; }
+.chat-message--assistant { align-self: flex-start; color: #222; background: #fff; }
+.chat-message > p { margin: 0; }
+.chat-listing-link { display: block; margin-top: 8px; color: #4d5728; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.chat-form button:disabled { opacity: .55; cursor: wait; }
 
 .chat-form {
   position: absolute;

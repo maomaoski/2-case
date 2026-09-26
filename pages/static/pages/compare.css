@@ -44,6 +44,12 @@ button { font: inherit; }
   box-shadow: 0 14px 30px rgb(44 53 32 / 17%);
   text-align: center;
 }
+.board-listing-card { min-width: 230px; min-height: 180px; max-width: 520px; max-height: 600px; resize: both; overflow: auto; align-items: flex-start; justify-content: flex-start; gap: 12px; text-align: left; cursor: grab; }
+.board-listing-card:active { cursor: grabbing; }
+.board-listing-card h2 { padding-right: 25px; overflow-wrap: anywhere; }
+.board-listing-card p { margin: 0; }
+.board-listing-card a { color: #28352c; font-size: 13px; font-weight: 800; text-underline-offset: 3px; }
+.board-card-remove { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border: 0; border-radius: 50%; color: #201f1b; background: rgb(255 255 255 / 65%); font-size: 21px; line-height: 1; cursor: pointer; }
 .board-card h2 { margin: 0; font-size: 24px; line-height: 1.3; font-weight: 800; }
 .board-card p { margin: 10px 0 0; font-size: 15px; }
 .board-card-profile { left: 190px; top: 285px; width: 300px; height: 280px; }
@@ -199,3 +205,5 @@ button { font: inherit; }
 @media (max-width: 340px) {
   .board-brand strong { display: none; }
 }
+.board-listing-picker { width: 100%; display: grid; gap: 5px; padding: 3px; color: #29271f; font-size: 10px; font-weight: 800; }
+.board-listing-picker select { width: 100%; min-width: 0; border: 1px solid rgb(41 39 31 / 25%); border-radius: 7px; padding: 5px 3px; color: #29271f; background: #f7f4ec; font-size: 10px; }

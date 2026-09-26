@@ -59,29 +59,31 @@ User Query / Client Request
 
 ---
 
-## 3. Инструкция по локальному развертыванию на macOS
+## 3. Инструкция по локальному развертыванию
 
 ### Шаг 1. Переход в папку и установка окружения
 ```bash
-cd backend_fastapi
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+cd my-back
+python -m venv backend_fastapi/venv
+```
+Активируйте окружение (`.\backend_fastapi\venv\Scripts\Activate.ps1` в Windows PowerShell или `source backend_fastapi/venv/bin/activate` в macOS/Linux), затем установите зависимости:
+```bash
+python -m pip install -r backend_fastapi/requirements.txt
 ```
 
 ### Шаг 2. Запуск сервера FastAPI
 ```bash
-uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+python -m uvicorn backend_fastapi.main:app --host 127.0.0.1 --port 8001 --reload
 ```
-Интерактивная документация Swagger: `http://127.0.0.1:8000/docs`
+Интерактивная документация Swagger: `http://127.0.0.1:8001/docs`
 
 ### Шаг 3. Запуск парсера в терминале macOS
 ```bash
 # Вызов с аргументами:
-python3 parsers/avito_parser.py --city Красноярск --deal rent
+python backend_fastapi/parsers/avito_parser.py --city Красноярск --deal rent
 
 # Парсинг локального HTML файла:
-python3 parsers/avito_parser.py --file saved_page.html --city Красноярск
+python backend_fastapi/parsers/avito_parser.py --file saved_page.html --city Красноярск
 ```
 
 ---
@@ -100,7 +102,7 @@ python3 parsers/avito_parser.py --file saved_page.html --city Красноярс
 
 ---
 
-## 5. Подключение стороннего фронтенда
+## 5. Подключение клиента API
 
 Любой клиентский проект может обращаться к этому бэкенду.
 1. Бэкенд возвращает стандартный JSON.
@@ -114,7 +116,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 ```
-3. Спецификацию можно скачать по адресу `http://127.0.0.1:8000/openapi.json`.
+3. Спецификацию можно скачать по адресу `http://127.0.0.1:8001/openapi.json`.
 4. Список эндпоинтов:
    - `GET /api/listings?city=...&deal_type=...`
    - `POST /api/search?query_text=...`

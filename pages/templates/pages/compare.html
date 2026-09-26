@@ -26,18 +26,9 @@
     <h1 class="board-heading">Сравнение</h1>
   </header>
 
-  <main class="board-viewport" data-board-viewport aria-label="Доска сравнения квартир">
+  <main class="board-viewport" data-board-viewport aria-label="Доска сравнения квартир" data-listings-url="{% url 'listings_api' %}" data-preview-url="{% url 'listing_preview' %}">
     <div class="board-world" data-board-world>
       <svg class="drawing-layer" data-drawing-layer viewBox="0 0 1200 850" aria-hidden="true"></svg>
-      <article class="board-card board-card-profile">
-        <h2>Пример<br>профиля<br>клиента</h2>
-        <p>(плейсхолдер)</p>
-      </article>
-      <article class="board-card board-card-search">
-        <h2>Макет с ИИ<br>поиском квартир</h2>
-        <p>(плейсхолдер)</p>
-      </article>
-
       <div class="collaborator collaborator-alex" aria-hidden="true">
         <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
         <span>Алекс</span>
@@ -50,6 +41,14 @@
   </main>
 
   <aside class="board-dock" aria-label="Инструменты доски">
+    <label class="board-listing-picker">
+      <span>Объявление</span>
+      <select data-board-listing-select aria-label="Объявление из базы"></select>
+    </label>
+    <button type="button" class="tool-button" data-add-board-listing aria-label="Добавить объявление на доску" title="Добавить объявление">
+      <svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></svg>
+    </button>
+    <div class="toolbar-divider"></div>
     <button type="button" class="tool-button" data-tool="pen" aria-label="Маркер" title="Маркер">
       <svg viewBox="0 0 24 24"><path d="m4 20 4.5-1 11-11a2.8 2.8 0 0 0-4-4l-11 11zM13.5 5.5l5 5"/></svg>
     </button>

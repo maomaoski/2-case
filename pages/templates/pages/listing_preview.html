@@ -17,14 +17,15 @@
   <main class="listing-preview-main">
     <article class="preview-panel">
       <div class="preview-gallery" aria-label="Фотографии объявления">
-        {% with photo=listing.photos.first %}
         <div class="preview-main-photo">
-          {% if photo %}<img src="{{ photo.image.url }}" alt="Фотография жилья">
+          {% if fastapi_listing.photos.0 %}<img src="{{ fastapi_listing.photos.0 }}" alt="Фотография жилья">
+          {% elif listing.photos.first %}<img src="{{ listing.photos.first.image.url }}" alt="Фотография жилья">
           {% else %}<span>Фотография жилья</span>{% endif %}
         </div>
-        {% endwith %}
         <div class="preview-thumbnails" aria-hidden="true">
-          {% if listing.photos.count > 1 %}
+          {% if fastapi_listing.photos|length > 1 %}
+            {% for photo in fastapi_listing.photos|slice:"1:" %}<div class="preview-thumb"><img src="{{ photo }}" alt=""></div>{% endfor %}
+          {% elif listing.photos.count > 1 %}
             {% for photo in listing.photos.all %}{% if not forloop.first %}<div class="preview-thumb"><img src="{{ photo.image.url }}" alt=""></div>{% endif %}{% endfor %}
           {% else %}
             <div class="preview-thumb"></div><div class="preview-thumb"></div><div class="preview-thumb"></div>
@@ -33,13 +34,20 @@
       </div>
       <div class="preview-details">
         <p class="preview-kind">{% if listing_type == "rent" %}Аренда{% else %}Продажа{% endif %}</p>
-        <h2>{% if listing %}{{ listing.title }}{% else %}Название объявления{% endif %}</h2>
-        <p class="preview-price">{% if listing and listing.price %}{{ listing.price }} ₽{% else %}Цена не указана{% endif %}</p>
+        <h2>{% if fastapi_listing %}{{ fastapi_listing.title }}{% elif listing %}{{ listing.title }}{% else %}Название объявления{% endif %}</h2>
+        <p class="preview-price">{% if fastapi_listing %}{{ fastapi_listing.price_rub|floatformat:0 }} ₽{% elif listing and listing.price %}{{ listing.price }} ₽{% else %}Цена не указана{% endif %}</p>
         <div class="preview-facts">
-          <span>{% if listing and listing.city %}{{ listing.city }}{% else %}Город не указан{% endif %}</span>
+          {% if fastapi_listing %}
+          <span>{{ fastapi_listing.city }}</span><span>{{ fastapi_listing.address }}</span>
+          {% if fastapi_listing.rooms_count %}<span>{{ fastapi_listing.rooms_count }} комн.</span>{% endif %}
+          {% if fastapi_listing.area_sqm %}<span>{{ fastapi_listing.area_sqm }} м²</span>{% endif %}
+          {% if fastapi_listing.floor %}<span>{{ fastapi_listing.floor }}/{{ fastapi_listing.total_floors }} этаж</span>{% endif %}
+          {% elif listing %}<span>{{ listing.city|default:"Город не указан" }}</span>
+          {% else %}<span>Город не указан</span>{% endif %}
           {% if listing %}{% for filter in listing.filters %}<span>{{ filter }}</span>{% endfor %}{% endif %}
         </div>
-        <p class="preview-description">{% if listing and listing.description %}{{ listing.description }}{% else %}Описание объявления{% endif %}</p>
+        <p class="preview-description">{% if fastapi_listing.description %}{{ fastapi_listing.description }}{% elif listing and listing.description %}{{ listing.description }}{% else %}Описание объявления{% endif %}</p>
+        {% if fastapi_listing.url %}<a class="preview-source-link" href="{{ fastapi_listing.url }}" target="_blank" rel="noopener">Открыть оригинал объявления</a>{% endif %}
       </div>
     </article>
   </main>

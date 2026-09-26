@@ -5,6 +5,12 @@
   const toolButtons = [...document.querySelectorAll("[data-tool]")];
   const colorButtons = [...document.querySelectorAll("[data-color]")];
   const thicknessControl = document.querySelector("[data-stroke-width]");
+  const listingSelect = document.querySelector("[data-board-listing-select]");
+  const addListingButton = document.querySelector("[data-add-board-listing]");
+  const listingsUrl = viewport.dataset.listingsUrl;
+  const previewUrl = viewport.dataset.previewUrl;
+  const boardStorageKey = "quart-board-listings-v1";
+  const listingsByKey = new Map();
 
   if (!viewport || !world || !drawingLayer) return;
 
@@ -14,6 +20,85 @@
   let activeTool = "pan";
   let activeColor = colorButtons[0]?.dataset.color || "#28352c";
   let gesture = null;
+
+  const saveCards = () => {
+    const cards = [...world.querySelectorAll(".board-listing-card")].map((card) => ({
+      key: card.dataset.listingKey,
+      left: card.style.left,
+      top: card.style.top,
+      width: card.style.width,
+      height: card.style.height,
+    }));
+    localStorage.setItem(boardStorageKey, JSON.stringify(cards));
+  };
+
+  const createListingCard = (listing, placement = {}) => {
+    const key = `${listing.listing_type}-${listing.id}`;
+    const card = document.createElement("article");
+    card.className = "board-card board-listing-card";
+    card.dataset.listingKey = key;
+    card.style.left = placement.left || `${160 + (world.querySelectorAll(".board-listing-card").length % 3) * 330}px`;
+    card.style.top = placement.top || `${150 + (world.querySelectorAll(".board-listing-card").length % 3) * 70}px`;
+    if (placement.width) card.style.width = placement.width;
+    if (placement.height) card.style.height = placement.height;
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "board-card-remove";
+    remove.setAttribute("aria-label", "Убрать объявление с доски");
+    remove.textContent = "×";
+    remove.addEventListener("click", () => {
+      card.remove();
+      saveCards();
+    });
+
+    const title = document.createElement("h2");
+    title.textContent = listing.title;
+    const details = document.createElement("p");
+    const price = Number(listing.price || 0);
+    details.textContent = `${price ? `${price.toLocaleString("ru-RU")} ₽ · ` : ""}${listing.city || ""}`;
+    const link = document.createElement("a");
+    link.href = `${previewUrl}?${new URLSearchParams({ id: listing.id, type: listing.listing_type })}`;
+    link.textContent = "Открыть объявление";
+    card.append(remove, title, details, link);
+    world.append(card);
+    new ResizeObserver(saveCards).observe(card);
+    return card;
+  };
+
+  const loadBoardListings = async () => {
+    if (!listingsUrl || !listingSelect) return;
+    try {
+      const response = await fetch(`${listingsUrl}?type=all`);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Не удалось загрузить объявления.");
+      listingSelect.replaceChildren();
+      data.listings.forEach((listing) => {
+        const key = `${listing.listing_type}-${listing.id}`;
+        listingsByKey.set(key, listing);
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = listing.title;
+        listingSelect.append(option);
+      });
+      const saved = JSON.parse(localStorage.getItem(boardStorageKey) || "[]");
+      saved.forEach((placement) => {
+        const listing = listingsByKey.get(placement.key);
+        if (listing) createListingCard(listing, placement);
+      });
+    } catch {
+      listingSelect.replaceChildren(new Option("Нет доступных объявлений", ""));
+    }
+  };
+
+  addListingButton?.addEventListener("click", () => {
+    const listing = listingsByKey.get(listingSelect?.value);
+    if (listing && !world.querySelector(`[data-listing-key="${CSS.escape(listingSelect.value)}"]`)) {
+      createListingCard(listing);
+      saveCards();
+    }
+  });
+  loadBoardListings();
 
   const render = () => {
     world.style.setProperty("--pan-x", `${panX}px`);
@@ -143,6 +228,21 @@
   viewport.addEventListener("pointerdown", (event) => {
     if (event.button !== 0) return;
     if (event.target.closest(".board-text-input")) return;
+    const listingCard = event.target.closest(".board-listing-card");
+    if (listingCard && activeTool === "pan" && !event.target.closest("a, button")) {
+      gesture = {
+        pointerId: event.pointerId,
+        kind: "card",
+        card: listingCard,
+        x: event.clientX,
+        y: event.clientY,
+        left: listingCard.offsetLeft,
+        top: listingCard.offsetTop,
+      };
+      viewport.setPointerCapture(event.pointerId);
+      event.preventDefault();
+      return;
+    }
     const point = toBoardPoint(event);
     if (activeTool === "text") return;
 
@@ -153,6 +253,7 @@
   });
 
   viewport.addEventListener("click", (event) => {
+    if (event.target.closest(".board-listing-card")) return;
     if (activeTool !== "text" || event.target.closest(".board-text-input")) return;
     event.preventDefault();
     insertText(toBoardPoint(event));
@@ -160,6 +261,11 @@
 
   viewport.addEventListener("pointermove", (event) => {
     if (event.pointerId !== gesture?.pointerId) return;
+    if (gesture.kind === "card") {
+      gesture.card.style.left = `${gesture.left + (event.clientX - gesture.x) / zoom}px`;
+      gesture.card.style.top = `${gesture.top + (event.clientY - gesture.y) / zoom}px`;
+      return;
+    }
     if (activeTool === "pan") {
       panX += event.clientX - gesture.x;
       panY += event.clientY - gesture.y;
@@ -173,8 +279,10 @@
 
   const stopPanning = (event) => {
     if (event.pointerId !== gesture?.pointerId) return;
+    const movedCard = gesture.kind === "card";
     gesture = null;
     viewport.classList.remove("is-panning");
+    if (movedCard) saveCards();
   };
 
   viewport.addEventListener("pointerup", stopPanning);

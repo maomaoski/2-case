@@ -21,7 +21,8 @@
       <div class="chat-messages" data-chat-messages aria-live="polite" aria-relevant="additions">
         <p class="chat-empty" data-chat-empty>Напишите сообщение, чтобы начать.</p>
       </div>
-      <form class="pill bottom-pill chat-form" data-chat-form>
+      <form class="pill bottom-pill chat-form" data-chat-form data-api-url="{% url 'assistant_api' %}">
+        {% csrf_token %}
         <label class="visually-hidden" for="chat-input">Ваше сообщение</label>
         <textarea id="chat-input" name="message" rows="1" placeholder="Введите сообщение..." data-chat-input required></textarea>
         <button class="chat-send" type="submit" aria-label="Отправить сообщение">↑</button>

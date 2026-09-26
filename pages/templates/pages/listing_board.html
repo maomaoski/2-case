@@ -15,8 +15,31 @@
   <a class="listing-menu" href="{% url 'home' %}">Меню</a>
   <h1 class="listing-title">{{ page_title }}</h1>
 
-  <main class="listing-main" data-listing-page data-api-url="{% url 'listings_api' %}" data-detail-url="{% url 'listing_preview' %}" data-edit-url="{% url 'listing_edit' %}" data-listing-type="{{ listing_type }}">
+  <main class="listing-main" data-listing-page data-api-url="{% url 'listings_api' %}" data-catalog-url="{% url 'catalog_api' %}" data-detail-url="{% url 'listing_preview' %}" data-edit-url="{% url 'listing_edit' %}" data-listing-type="{{ listing_type }}">
     <section class="listing-panel" aria-label="{{ page_title }}">
+      {% if listing_type != "all" %}
+      <form class="listing-filters" data-listing-filters>
+        <label>Город
+          <select data-filter-city>
+            <option>Красноярск</option>
+            <option>Москва</option>
+            <option>Санкт-Петербург</option>
+          </select>
+        </label>
+        <label>Цена до, ₽
+          <input data-filter-price type="number" min="0" step="1000" inputmode="numeric" placeholder="Без ограничения">
+        </label>
+        <label>Комнаты
+          <select data-filter-rooms>
+            <option value="all">Любое количество</option>
+            <option value="0">Студия</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3+</option>
+          </select>
+        </label>
+      </form>
+      {% endif %}
       <div class="listing-grid{% if listing_type != 'all' %} listing-grid--single{% endif %}">
         <div class="listing-column">
           {% if listing_type == "all" %}

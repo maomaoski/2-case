@@ -53,3 +53,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LISTINGS_API_URL = os.environ.get("LISTINGS_API_URL", "")
 LISTINGS_API_TOKEN = os.environ.get("LISTINGS_API_TOKEN", "")
 LISTINGS_API_TIMEOUT = int(os.environ.get("LISTINGS_API_TIMEOUT", "5"))
+FASTAPI_BASE_URL = os.environ.get("FASTAPI_BASE_URL", "http://127.0.0.1:8001")
+FASTAPI_TIMEOUT = int(os.environ.get("FASTAPI_TIMEOUT", "20"))

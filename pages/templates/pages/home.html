@@ -31,12 +31,26 @@
 </header>
 
 <main class="main-content" aria-label="Предложения недвижимости">
-  <div class="grid" aria-hidden="true">
-    {% for card in "123456789" %}
+  <div class="grid" data-home-grid data-catalog-url="{% url 'catalog_api' %}">
+    {% for listing in listings %}
     <article class="card">
-      <div class="card-image"></div>
-      <div class="card-button"></div>
+      <a class="card-listing" data-home-listing-key="{{ listing.pk }}-{{ listing.listing_type }}" href="{% url 'listing_preview' %}?id={{ listing.pk }}&amp;type={{ listing.listing_type }}" aria-label="Открыть объявление: {{ listing.title }}">
+        <div class="card-image"></div>
+      </a>
+      <div class="card-button" aria-label="Цена объявления">
+        {% if listing.price %}{{ listing.price|floatformat:"0g" }} ₽{% else %}Цена не указана{% endif %}
+      </div>
     </article>
+    {% empty %}
+    {% for card in "123456789" %}
+    {% cycle "buy" "rent" as fallback_type silent %}
+    <article class="card" data-home-placeholder>
+      <a class="card-listing" href="{% url fallback_type %}" aria-label="{% if fallback_type == 'rent' %}Смотреть квартиры в аренду{% else %}Смотреть квартиры на продажу{% endif %}">
+        <div class="card-image"></div>
+      </a>
+      <div class="card-button">Цена не указана</div>
+    </article>
+    {% endfor %}
     {% endfor %}
   </div>
 </main>

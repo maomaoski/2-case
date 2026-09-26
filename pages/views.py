@@ -2,18 +2,17 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from .models import Listing
+from .api_client import fetch_fastapi_listings
 
 # Uncomment after installing requests to connect to an external API.
 # import requests
 
 
 def home(request):
-    # API hook:
-    # response = requests.get("https://api.example.com/listings", timeout=10)
-    # response.raise_for_status()
-    # context = {"listings": response.json()}
-    # return render(request, "pages/home.html", context)
-    return render(request, "pages/home.html")
+    listings = Listing.objects.filter(
+        listing_type__in=(Listing.Type.BUY, Listing.Type.RENT)
+    )[:9]
+    return render(request, "pages/home.html", {"listings": listings})
 
 
 def buy(request):
@@ -35,8 +34,23 @@ def announcement(request):
 def listing_preview(request):
     listing_id = request.GET.get("id")
     listing = None
+    fastapi_listing = None
+    if request.GET.get("source") == "fastapi" and listing_id:
+        city = request.GET.get("city", "Красноярск")
+        listing_type = request.GET.get("type", Listing.Type.RENT)
+        if listing_type not in {Listing.Type.BUY, Listing.Type.RENT}:
+            listing_type = Listing.Type.RENT
+        try:
+            fastapi_listing = next(
+                (item for item in fetch_fastapi_listings(city, listing_type)
+                 if str(item.get("id")) == listing_id),
+                None,
+            )
+        except RuntimeError:
+            fastapi_listing = None
     if listing_id and listing_id.isdigit():
-        listing = Listing.objects.prefetch_related("photos").filter(pk=listing_id).first()
+        if not fastapi_listing:
+            listing = Listing.objects.prefetch_related("photos").filter(pk=listing_id).first()
     listing_type = request.GET.get(
         "type",
         listing.listing_type if listing else Listing.Type.BUY,
@@ -45,7 +59,12 @@ def listing_preview(request):
     return render(
         request,
         "pages/listing_preview.html",
-        {"listing": listing, "listing_type": listing_type, "page_title": page_title},
+        {
+            "listing": listing,
+            "fastapi_listing": fastapi_listing,
+            "listing_type": listing_type,
+            "page_title": page_title,
+        },
     )
 
 
