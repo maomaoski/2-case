@@ -1,20 +1,183 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+
+# GeoRent AI
+
+### Поиск жилья, который понимает человеческий запрос
+
+Ищите квартиру по бюджету, городу, району и близости школы. GeoRent AI превращает свободный текст в фильтры, показывает подходящие объявления на карте и объясняет, почему локация подходит.
+
+<p>
+   <img src="https://img.shields.io/badge/React-19-149eca?style=flat-square&logo=react&logoColor=white" alt="React 19">
+   <img src="https://img.shields.io/badge/TypeScript-ES2022-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+   <img src="https://img.shields.io/badge/Vite-8-646cff?style=flat-square&logo=vite&logoColor=white" alt="Vite">
+   <img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express&logoColor=white" alt="Express">
+   <img src="https://img.shields.io/badge/Gemini-server--side-4285f4?style=flat-square&logo=google&logoColor=white" alt="Gemini server-side">
+</p>
+
 </div>
 
-# Run and deploy your AI Studio app
+## Что умеет приложение
 
-This contains everything you need to run your app locally.
+| Возможность | Как работает |
+| --- | --- |
+| Умный поиск | Принимает запросы вроде «снять однушку в Красноярске до 40 000 ₽ со школой рядом» и извлекает город, бюджет, тип сделки и ориентир. |
+| Фильтры | Город, аренда или покупка, максимальная цена, безопасность, комнаты, район и наличие школы поблизости. |
+| Карта и карточки | Показывает объявления, координаты, фотографии, площадь, этаж, школу, транспорт и проверенные источники. |
+| Аналитика района | Даёт краткую характеристику города и района, включая инфраструктуру, экологию и доступность школы. |
+| Избранное | Позволяет сохранять понравившиеся варианты для текущей сессии. |
+| Подбор соседей | Вкладка Tinder помогает сопоставлять понравившиеся объявления с профилями друзей. |
+| Уведомления | Браузерные уведомления и демонстрационный push о новом подходящем объявлении. |
 
-View your app in AI Studio: https://ai.studio/apps/f0779aa2-1c29-4dea-a854-eddbfd498644
+## Быстрый старт
 
-## Run Locally
+### Требования
 
-**Prerequisites:**  Node.js
+- Node.js 20 или новее
+- npm 10 или новее
+- API-ключ Gemini необязателен: без него включается локальный эвристический режим
 
+### Установка
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```powershell
+npm install
+Copy-Item .env.example .env
+```
+
+Откройте `.env` и при необходимости укажите ключ:
+
+```dotenv
+GEMINI_API_KEY=your_gemini_api_key
+# Необязательно: URL совместимого proxy-шлюза
+GEMINI_PROXY_BASE_URL=https://generativelanguage.googleapis.com
+# Необязательно: порт Express
+PORT=3000
+```
+
+### Запуск в разработке
+
+```powershell
+npm run dev
+```
+
+Откройте [http://localhost:3000](http://localhost:3000). Express запускает сервер и подключает Vite в middleware-режиме, поэтому отдельный `vite`-процесс не нужен.
+
+### Production-сборка
+
+```powershell
+npm run build
+$env:NODE_ENV = "production"
+npm start
+```
+
+В production Express раздаёт готовую папку `dist`. Порт можно изменить через переменную `PORT`.
+
+## Как пользоваться
+
+1. Выберите город и базовые фильтры.
+2. Напишите запрос в чате обычными словами.
+3. Откройте карточку объявления или выберите объект на карте.
+4. Сравните варианты по цене, школе, безопасности и району.
+5. Включите уведомления, чтобы проверить сценарий новых рекомендаций.
+
+Поддерживаемые города в демо-данных: **Красноярск**, **Москва** и **Санкт-Петербург**. По умолчанию приложение открывается с поиском аренды в Красноярске до 40 000 ₽.
+
+## API
+
+Все endpoint’ы обслуживаются тем же Express-процессом на `http://localhost:3000`.
+
+### `POST /api/chat`
+
+Основной поиск. Тело запроса:
+
+```json
+{
+   "message": "снять квартиру в Красноярске до 40 000 со школой рядом",
+   "filters": {
+      "city": "Красноярск",
+      "deal_type": "rent",
+      "max_price": 40000,
+      "min_safety": 8,
+      "only_schools": true
+   }
+}
+```
+
+Возвращает ответ ассистента, распознанные критерии, список объявлений, центр карты и ссылки на источники.
+
+### `POST /api/push/simulate`
+
+Создаёт демонстрационное уведомление для города:
+
+```json
+{
+   "city": "Москва",
+   "max_price": 50000
+}
+```
+
+### `GET /api/friends`
+
+Возвращает профили для вкладки подбора соседей.
+
+### `POST /api/friends/like`
+
+Сохраняет лайк объявления для друга:
+
+```json
+{
+   "listingId": 101,
+   "friendId": "friend-1"
+}
+```
+
+## Архитектура
+
+```text
+React + TypeScript
+            |
+            | fetch('/api/...')
+            v
+Express + TypeScript (server.ts)
+            |
+            +-- Gemini API, если задан GEMINI_API_KEY
+            +-- локальный fallback без сети и ключа
+            +-- демо-объявления и профили в памяти
+            +-- Vite middleware в development
+```
+
+Ключевые каталоги:
+
+```text
+.
+├── server.ts              # Express API и интеграция с Gemini
+├── src/
+│   ├── App.tsx            # состояние приложения и пользовательские сценарии
+│   ├── types.ts           # типы и демонстрационные объявления
+│   ├── index.css          # глобальные стили
+│   └── components/        # чат, карта, фильтры, карточки и вкладки
+├── .env.example           # пример переменных окружения
+├── package.json           # команды и зависимости
+└── vite.config.ts         # React/Vite/Tailwind-конфигурация
+```
+
+## Скрипты npm
+
+| Команда | Назначение |
+| --- | --- |
+| `npm run dev` | Запуск Express + Vite в режиме разработки |
+| `npm run build` | Production-сборка фронтенда |
+| `npm run lint` | Проверка TypeScript без генерации файлов |
+| `npm start` | Запуск Express-сервера |
+| `npm run preview` | Предпросмотр Vite-сборки |
+
+## Важные ограничения демо
+
+- Объявления, профили друзей и лайки хранятся только в памяти процесса и исчезают после перезапуска.
+- Интеграция Gemini используется для нормализации запросов и доступна только при заданном ключе.
+- При отсутствии ключа поиск работает через локальные регулярные эвристики.
+- Данные объявлений являются демонстрационными; приложение не выполняет полноценную синхронизацию с Циан, Авито или Росреестром.
+- `GEMINI_API_KEY` используется на сервере и не должен попадать в клиентский код или репозиторий.
+
+## Лицензия
+
+В исходных файлах проекта указана лицензия Apache-2.0 для клиентского приложения и его компонентов.
